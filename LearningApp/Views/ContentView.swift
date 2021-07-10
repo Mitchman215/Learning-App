@@ -21,10 +21,19 @@ struct ContentView: View {
                     
                     ForEach(0..<model.currentModule!.content.lessons.count) { index in
                         
-                        ContentViewCard(index: index)
+                        NavigationLink(
+                            destination:
+                                ContentDetailView()
+                                .onAppear(perform: {
+                                    model.beginLesson(index)
+                                }),
+                            label: {
+                                ContentViewCard(index: index)
+                            })
                     }
                 }
             }
+            .accentColor(.black)
             .padding()
             .navigationTitle("Learn \(model.currentModule?.category ?? "")")
         }
