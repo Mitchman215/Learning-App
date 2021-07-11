@@ -30,6 +30,8 @@ struct HomeView: View {
                                             .onAppear(perform: {
                                                 model.beginModule(module.id)
                                             }),
+                                    tag: module.id,
+                                    selection: $model.currentContentSelected,
                                     label: {
                                         // MARK: Learning Card
                                         HomeViewCard(image: module.content.image,
