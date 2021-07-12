@@ -18,9 +18,3 @@ struct RectangleCard: View {
             .shadow(radius: 5)
     }
 }
-
-struct RectangleCard_Previews: PreviewProvider {
-    static var previews: some View {
-        RectangleCard()
-    }
-}
