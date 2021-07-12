@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A2BA65F6269BA50D00E4E62D /* RectangleCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2BA65F5269BA50D00E4E62D /* RectangleCard.swift */; };
+		A2BA661A269BD1BD00E4E62D /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2BA6619269BD1BD00E4E62D /* TestView.swift */; };
 		A2EA2CB22696A1A9002D44E7 /* LearningApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA2CB12696A1A9002D44E7 /* LearningApp.swift */; };
 		A2EA2CB42696A1A9002D44E7 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA2CB32696A1A9002D44E7 /* HomeView.swift */; };
 		A2EA2CB62696A1AC002D44E7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2EA2CB52696A1AC002D44E7 /* Assets.xcassets */; };
@@ -27,6 +28,7 @@
 
 /* Begin PBXFileReference section */
 		A2BA65F5269BA50D00E4E62D /* RectangleCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleCard.swift; sourceTree = "<group>"; };
+		A2BA6619269BD1BD00E4E62D /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		A2EA2CAE2696A1A9002D44E7 /* LearningApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearningApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2EA2CB12696A1A9002D44E7 /* LearningApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningApp.swift; sourceTree = "<group>"; };
 		A2EA2CB32696A1A9002D44E7 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 				A2EA2CD726992D0A002D44E7 /* ContentView.swift */,
 				A2EA2CDA269935A4002D44E7 /* ContentViewCard.swift */,
 				A2EA2CDD26993710002D44E7 /* ContentDetailView.swift */,
+				A2BA6619269BD1BD00E4E62D /* TestView.swift */,
 				A2FA1D82269A058D00180053 /* CodeTextView.swift */,
 				A2BA65F5269BA50D00E4E62D /* RectangleCard.swift */,
 			);
@@ -225,6 +228,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2BA661A269BD1BD00E4E62D /* TestView.swift in Sources */,
 				A2EA2CB42696A1A9002D44E7 /* HomeView.swift in Sources */,
 				A2EA2CB22696A1A9002D44E7 /* LearningApp.swift in Sources */,
 				A2EA2CD826992D0A002D44E7 /* ContentView.swift in Sources */,

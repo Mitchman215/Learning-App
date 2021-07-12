@@ -31,22 +31,25 @@ struct HomeView: View {
                                                 model.beginModule(module.id)
                                             }),
                                     tag: module.id,
-                                    selection: $model.currentContentSelected,
-                                    label: {
+                                    selection: $model.currentContentSelected) {
                                         // MARK: Learning Card
                                         HomeViewCard(image: module.content.image,
                                                      title: "Learn \(module.category)",
                                                      description: module.content.description,
                                                      count: "\(module.content.lessons.count) Lessons",
                                                      time: module.content.time)
-                                    })
+                                    }
                                 
-                                // MARK: Test Card
-                                HomeViewCard(image: module.test.image,
-                                             title: "\(module.category) Test",
-                                             description: module.test.description,
-                                             count: "\(module.test.questions.count) Lessons",
-                                             time: module.test.time)
+                                NavigationLink(destination: TestView(),
+                                               tag: module.id,
+                                               selection: $model.currentTestSelected) {
+                                    // MARK: Test Card
+                                    HomeViewCard(image: module.test.image,
+                                                 title: "\(module.category) Test",
+                                                 description: module.test.description,
+                                                 count: "\(module.test.questions.count) Lessons",
+                                                 time: module.test.time)
+                                }
                             }
                         }
                     }
