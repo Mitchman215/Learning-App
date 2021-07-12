@@ -144,6 +144,26 @@ class ContentModel: ObservableObject {
         }
     }
     
+    func hasNextQuestion() -> Bool {
+        return (currentQuestionIndex + 1 < currentModule!.test.questions.count)
+    }
+    
+    func nextQuestion() {
+        if self.hasNextQuestion() { // if it isn't the last question
+            // advance question index
+            currentQuestionIndex += 1
+            // set the new current question
+            currentQuestion = currentModule!.test.questions[currentQuestionIndex]
+            codeText = addStyling(currentQuestion!.content)
+            }
+        else { // TODO: Check if this code is ever executed, maybe make into an exception
+            // Reset the question if it is the last
+            currentQuestionIndex = 0
+            currentQuestion = nil
+            
+        }
+    }
+    
     // MARK: - Code Styling
     private func addStyling(_ htmlString: String) -> NSAttributedString {
         

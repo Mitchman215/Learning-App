@@ -30,7 +30,7 @@ struct TestView: View {
                 // Answers
                 ScrollView {
                     VStack {
-                        ForEach (0..<model.currentQuestion!.answers.count) { index in
+                        ForEach (0..<model.currentQuestion!.answers.count, id: \.self ) { index in
                             
                             Button {
                                 // Track the selected answer index
@@ -69,20 +69,39 @@ struct TestView: View {
                     .padding()
                 }
                 
-                // button to advance
+                // Button to submit/advance
                 Button {
-                    // Change submitted state to true
-                    submitted = true
                     
-                    // Check answer
-                    if selectedAnswerIndex == model.currentQuestion!.correctIndex {
-                        numCorrect += 1
+                    // Check if answer has been submitted
+                    if submitted {
+                        if model.hasNextQuestion() { // not last question
+                            // move to next question
+                            model.nextQuestion()
+                            
+                            // Reset properties
+                            submitted = false
+                            selectedAnswerIndex = nil
+                        }
+                        else {
+                            // TODO: Add results screen and way to navigate back to the homeView
+                        }
+                        
                     }
+                    else { // Submit the answer
+                        // Change submitted state to true
+                        submitted = true
+                        
+                        // Check answer
+                        if selectedAnswerIndex == model.currentQuestion!.correctIndex {
+                            numCorrect += 1
+                        }
+                    }
+                    
                 } label: {
                     ZStack {
                         RectangleCard(color: .green)
                             .frame(height: 48)
-                        Text("Submit")
+                        Text(buttonText)
                             .foregroundColor(.white)
                             .bold()
                     }
@@ -94,6 +113,19 @@ struct TestView: View {
             .navigationTitle("\(model.currentModule?.category ?? "") Test")
         }
         
+    }
+    
+    // determines the text to display on the bottom submit/ advance button
+    var buttonText: String {
+        // if answer already submitted, button should display either
+        // next question or finish depending on whether it's the final question
+        if submitted {
+            return model.hasNextQuestion() ? "Next Question" : "Finish"
+        }
+        else {
+            // display submit if not submitted already
+            return "Submit"
+        }
     }
 }
 
