@@ -25,11 +25,10 @@ struct HomeView: View {
                             VStack (spacing: 20) {
                                 
                                 NavigationLink(
-                                    destination:
-                                        ContentView()
-                                            .onAppear(perform: {
-                                                model.beginModule(module.id)
-                                            }),
+                                    destination: ContentView()
+                                                    .onAppear(perform: {
+                                                            model.beginModule(module.id)
+                                                        }),
                                     tag: module.id,
                                     selection: $model.currentContentSelected) {
                                         // MARK: Learning Card
@@ -40,9 +39,14 @@ struct HomeView: View {
                                                      time: module.content.time)
                                     }
                                 
-                                NavigationLink(destination: TestView(),
-                                               tag: module.id,
-                                               selection: $model.currentTestSelected) {
+                                NavigationLink(
+                                    destination: TestView()
+                                                    .onAppear(perform: {
+                                                        model.beginTest(module.id)
+                                                    }),
+                                    tag: module.id,
+                                    selection: $model.currentTestSelected) {
+                                    
                                     // MARK: Test Card
                                     HomeViewCard(image: module.test.image,
                                                  title: "\(module.category) Test",
