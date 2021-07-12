@@ -74,17 +74,13 @@ struct TestView: View {
                     
                     // Check if answer has been submitted
                     if submitted {
-                        if model.hasNextQuestion() { // not last question
-                            // move to next question
-                            model.nextQuestion()
-                            
-                            // Reset properties
-                            submitted = false
-                            selectedAnswerIndex = nil
-                        }
-                        else {
-                            // TODO: Add results screen and way to navigate back to the homeView
-                        }
+                    
+                        // move to next question
+                        model.nextQuestion()
+                        
+                        // Reset properties
+                        submitted = false
+                        selectedAnswerIndex = nil
                         
                     }
                     else { // Submit the answer
@@ -112,6 +108,10 @@ struct TestView: View {
             }
             .navigationTitle("\(model.currentModule?.category ?? "") Test")
         }
+        else {
+            // If currentQuestion is nil, show result view
+            TestResultView(numCorrect: numCorrect)
+        }
         
     }
     
@@ -126,11 +126,5 @@ struct TestView: View {
             // display submit if not submitted already
             return "Submit"
         }
-    }
-}
-
-struct TestView_Previews: PreviewProvider {
-    static var previews: some View {
-        TestView()
     }
 }

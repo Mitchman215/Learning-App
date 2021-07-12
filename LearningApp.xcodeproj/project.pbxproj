@@ -24,6 +24,7 @@
 		A2EA2CE2269938F6002D44E7 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2EA2CE1269938F6002D44E7 /* AVKit.framework */; };
 		A2EA2CE426993A02002D44E7 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA2CE326993A02002D44E7 /* Constants.swift */; };
 		A2FA1D83269A058D00180053 /* CodeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FA1D82269A058D00180053 /* CodeTextView.swift */; };
+		A2FFEED3269CF25E00128C64 /* TestResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FFEED2269CF25E00128C64 /* TestResultView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		A2EA2CE1269938F6002D44E7 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		A2EA2CE326993A02002D44E7 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A2FA1D82269A058D00180053 /* CodeTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeTextView.swift; sourceTree = "<group>"; };
+		A2FFEED2269CF25E00128C64 /* TestResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestResultView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +147,7 @@
 				A2BA6619269BD1BD00E4E62D /* TestView.swift */,
 				A2FA1D82269A058D00180053 /* CodeTextView.swift */,
 				A2BA65F5269BA50D00E4E62D /* RectangleCard.swift */,
+				A2FFEED2269CF25E00128C64 /* TestResultView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -229,6 +232,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A2BA661A269BD1BD00E4E62D /* TestView.swift in Sources */,
+				A2FFEED3269CF25E00128C64 /* TestResultView.swift in Sources */,
 				A2EA2CB42696A1A9002D44E7 /* HomeView.swift in Sources */,
 				A2EA2CB22696A1A9002D44E7 /* LearningApp.swift in Sources */,
 				A2EA2CD826992D0A002D44E7 /* ContentView.swift in Sources */,
