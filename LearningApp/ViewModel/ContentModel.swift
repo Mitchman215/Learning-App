@@ -111,8 +111,14 @@ class ContentModel: ObservableObject {
                 let decoder = JSONDecoder()
                 // Decode
                 let modules = try decoder.decode([Module].self, from: data!)
-                // Append parsed modules into modules property
-                self.modules += modules
+                
+                // asign code to main thread
+                // all code that updates the ui should be in the main thread
+                DispatchQueue.main.async {
+                    // Append parsed modules into modules property
+                    self.modules += modules
+                }
+                
             }
             catch {
                 // Couldn't parse json
@@ -159,6 +165,11 @@ class ContentModel: ObservableObject {
     }
     
     func hasNextLesson() -> Bool {
+        
+        guard currentModule != nil else {
+            return false
+        }
+        
         return (currentLessonIndex + 1 < currentModule!.content.lessons.count)
     }
     
