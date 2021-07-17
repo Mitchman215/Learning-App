@@ -10,13 +10,17 @@ import SwiftUI
 struct TestView: View {
     
     @EnvironmentObject var model: ContentModel
+    
     @State var selectedAnswerIndex: Int?
     @State var numCorrect = 0
     @State var submitted = false
+    @State var showResults = false
     
     var body: some View {
         
-        if model.currentQuestion != nil {
+        if model.currentQuestion != nil &&
+            showResults == false {
+            
             VStack (alignment: .leading){
                 
                 // Question number
@@ -75,12 +79,19 @@ struct TestView: View {
                     // Check if answer has been submitted
                     if submitted {
                     
-                        // move to next question
-                        model.nextQuestion()
+                        // Check if it's the last question
+                        if model.hasNextQuestion() { // is not last question
+                            // move to next question
+                            model.nextQuestion()
+                            
+                            // Reset properties
+                            submitted = false
+                            selectedAnswerIndex = nil
+                        }
+                        else { // is last question
+                            showResults = true
+                        }
                         
-                        // Reset properties
-                        submitted = false
-                        selectedAnswerIndex = nil
                         
                     }
                     else { // Submit the answer
@@ -108,9 +119,12 @@ struct TestView: View {
             }
             .navigationTitle("\(model.currentModule?.category ?? "") Test")
         }
-        else {
+        else if showResults == true {
             // If currentQuestion is nil, show result view
             TestResultView(numCorrect: numCorrect)
+        }
+        else { // view has just been initialized
+            ProgressView()
         }
         
     }

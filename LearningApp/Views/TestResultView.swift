@@ -28,7 +28,7 @@ struct TestResultView: View {
             return "Doing great!"
         }
         else {
-            return "Keep learning, better luck next time"
+            return "Keep learning"
         }
     }
     

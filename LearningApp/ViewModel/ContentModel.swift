@@ -206,6 +206,11 @@ class ContentModel: ObservableObject {
     }
     
     func hasNextQuestion() -> Bool {
+        
+        guard currentModule != nil else {
+            return false
+        }
+        
         return (currentQuestionIndex + 1 < currentModule!.test.questions.count)
     }
     
