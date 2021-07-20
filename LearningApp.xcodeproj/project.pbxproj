@@ -62,6 +62,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A291693426A784860031FA99 /* Content */ = {
+			isa = PBXGroup;
+			children = (
+				A2EA2CD726992D0A002D44E7 /* ContentView.swift */,
+				A2EA2CDA269935A4002D44E7 /* ContentViewCard.swift */,
+				A2EA2CDD26993710002D44E7 /* ContentDetailView.swift */,
+			);
+			path = Content;
+			sourceTree = "<group>";
+		};
+		A291693526A7849A0031FA99 /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				A2BA6619269BD1BD00E4E62D /* TestView.swift */,
+				A2FFEED2269CF25E00128C64 /* TestResultView.swift */,
+			);
+			path = Test;
+			sourceTree = "<group>";
+		};
 		A2EA2CA52696A1A9002D44E7 = {
 			isa = PBXGroup;
 			children = (
@@ -141,13 +160,10 @@
 			children = (
 				A2EA2CB32696A1A9002D44E7 /* HomeView.swift */,
 				A2EA2CD42699287B002D44E7 /* HomeViewCard.swift */,
-				A2EA2CD726992D0A002D44E7 /* ContentView.swift */,
-				A2EA2CDA269935A4002D44E7 /* ContentViewCard.swift */,
-				A2EA2CDD26993710002D44E7 /* ContentDetailView.swift */,
-				A2BA6619269BD1BD00E4E62D /* TestView.swift */,
+				A291693426A784860031FA99 /* Content */,
+				A291693526A7849A0031FA99 /* Test */,
 				A2FA1D82269A058D00180053 /* CodeTextView.swift */,
 				A2BA65F5269BA50D00E4E62D /* RectangleCard.swift */,
-				A2FFEED2269CF25E00128C64 /* TestResultView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
