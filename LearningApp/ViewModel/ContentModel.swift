@@ -40,15 +40,84 @@ class ContentModel: ObservableObject {
         getLocalStyles()
         
         // Get database modules
-        getDatabaseModules()
-        
-        // Download remote json file and parse data
-        // getRemoteData()
+        getModules()
     }
     
     // MARK: - Data methods
     
-    func getDatabaseModules() {
+    func getLessons(module: Module, completion: @escaping () -> Void) {
+        // Specify path
+        let collection = db.collection("modules").document(module.id).collection("lessons")
+        
+        // Get documents
+        collection.getDocuments { (snapshot, error) in
+            if error == nil && snapshot != nil {
+                
+                // Array to track lessons
+                var lessons = [Lesson]()
+                
+                // Loop through the documents and build array of lessons
+                for doc in snapshot!.documents {
+                    var l = Lesson()
+                    l.id = doc["id"] as? String ?? UUID().uuidString
+                    l.title = doc["title"] as? String ?? ""
+                    l.video = doc["video"] as? String ?? ""
+                    l.duration = doc["duration"] as? String ?? ""
+                    l.explanation = doc["explanation"] as? String ?? ""
+                    lessons.append(l)
+                }
+                
+                // Setting the lessons to the module
+                // Loop through published modules array to find match
+                for (index, m) in self.modules.enumerated() {
+                    if m.id == module.id {
+                        self.modules[index].content.lessons = lessons
+                        
+                        // Call completion closure
+                        completion()
+                        return
+                    }
+                }
+            }
+        }
+    }
+    
+    func getQuestions(module: Module, completion: @escaping () -> Void) {
+        
+        let collection = db.collection("modules").document(module.id).collection("questions")
+        
+        collection.getDocuments { (snapshot, error) in
+            if error == nil && snapshot != nil {
+                
+                // Array to track questions
+                var questions = [Question]()
+                
+                // Loop through the documents and build array of lessons
+                for doc in snapshot!.documents {
+                    var q = Question()
+                    q.id = doc["id"] as? String ?? UUID().uuidString
+                    q.content = doc["content"] as? String ?? ""
+                    q.correctIndex = doc["correctIndex"] as? Int ?? 0
+                    q.answers = doc["answers"] as? [String] ?? [String]()
+                    questions.append(q)
+                }
+                
+                // Setting the lessons to the module
+                // Loop through published modules array to find match
+                for (index, m) in self.modules.enumerated() {
+                    if m.id == module.id {
+                        self.modules[index].test.questions = questions
+                        
+                        // Call completion closure
+                        completion()
+                        return
+                    }
+                }
+            }
+        }
+    }
+    
+    private func getModules() {
         
         // Specify path
         let collection = db.collection("modules")
@@ -105,29 +174,7 @@ class ContentModel: ObservableObject {
         
     }
     
-    func getLocalStyles() {
-        /*
-        // Get url to the json file
-        let jsonUrl = Bundle.main.url(forResource: "data", withExtension: "json")
-        
-        
-        do {
-            // Read file into data object
-            let jsonData = try Data(contentsOf: jsonUrl!)
-            
-            // Try to decode the json into an array of modules
-            let jsonDecoder = JSONDecoder()
-            let modules = try jsonDecoder.decode([Module].self, from: jsonData)
-            
-            // Assign parsed modules to modules property
-            self.modules = modules
-        }
-        catch {
-            // TODO log error
-            print("Couldn't parse local data")
-        }
-         */
-        
+    func getLocalStyles() {        
         // Parse the style data
         let styleUrl = Bundle.main.url(forResource: "style", withExtension: "html")
         
@@ -144,7 +191,8 @@ class ContentModel: ObservableObject {
         
     }
     
-    func getRemoteData() {
+    /// defunct, leave for reference purposes. delete before production
+    private func getRemoteData() {
         
         // String path
         let urlString = "https://mitchman215.github.io/Learning-App-data/data2.json"
