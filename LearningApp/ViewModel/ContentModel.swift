@@ -36,14 +36,12 @@ class ContentModel: ObservableObject {
     @Published var currentTestSelected:Int?
     
     init() {
-        // Parse local style.html
-        getLocalStyles()
         
-        // Get database modules
-        getModules()
     }
     
     // MARK: - Data methods
+    
+    
     
     func getLessons(module: Module, completion: @escaping () -> Void) {
         // Specify path
@@ -118,6 +116,9 @@ class ContentModel: ObservableObject {
     }
     
     private func getModules() {
+        
+        // Parse local style.html
+        getLocalStyles()
         
         // Specify path
         let collection = db.collection("modules")
