@@ -12,6 +12,9 @@ class ContentModel: ObservableObject {
     
     let db = Firestore.firestore()
     
+    // Boolean indicating if user is logged in
+    @Published var loggedIn = false
+    
     // List of modules
     @Published var modules = [Module]()
     
@@ -39,9 +42,14 @@ class ContentModel: ObservableObject {
         
     }
     
+    // MARK: - Authentication methods
+    
+    func checkLogin() {
+        // Check if there's a current user to determine logged in status
+        loggedIn = Auth.auth().currentUser != nil
+    }
+    
     // MARK: - Data methods
-    
-    
     
     func getLessons(module: Module, completion: @escaping () -> Void) {
         // Specify path

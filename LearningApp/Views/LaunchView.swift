@@ -8,8 +8,40 @@
 import SwiftUI
 
 struct LaunchView: View {
+    
+    @EnvironmentObject var model: ContentModel
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
+        if !model.loggedIn {
+            // Show login view
+            LoginView()
+                .onAppear {
+                    // Check if user is logged in or out
+                    model.checkLogin()
+                }
+        }
+        else {
+            // Show logged in view
+            TabView {
+                HomeView()
+                    .tabItem {
+                        VStack {
+                            Image(systemName: "book")
+                            Text("Learn")
+                        }
+                    }
+                
+                ProfileView()
+                    .tabItem {
+                        VStack {
+                            Image(systemName: "person")
+                            Text("Learn")
+                        }
+                    }
+            }
+            
+        }
     }
 }
 
