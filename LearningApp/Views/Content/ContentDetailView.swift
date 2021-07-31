@@ -47,6 +47,9 @@ struct ContentDetailView: View {
             else {
                 // if it is the last lesson, show complete button instead
                 Button(action: {
+                    // Call next lesson in order to save user data
+                    model.nextLesson()
+                    
                     // Take user back to homeview
                     model.currentContentSelected = nil
                 }, label: {

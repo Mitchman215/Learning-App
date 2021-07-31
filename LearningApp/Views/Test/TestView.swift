@@ -78,21 +78,19 @@ struct TestView: View {
                     
                     // Check if answer has been submitted
                     if submitted {
-                    
+                        // try to move to next question
+                        model.nextQuestion()
+                        
                         // Check if it's the last question
                         if model.hasNextQuestion() { // is not last question
-                            // move to next question
-                            model.nextQuestion()
-                            
                             // Reset properties
                             submitted = false
                             selectedAnswerIndex = nil
                         }
                         else { // is last question
+                            // Set show results to true
                             showResults = true
                         }
-                        
-                        
                     }
                     else { // Submit the answer
                         // Change submitted state to true

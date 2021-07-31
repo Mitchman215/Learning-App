@@ -110,6 +110,27 @@ class ContentModel: ObservableObject {
     
     // MARK: - Data methods
     
+    func saveData(writeToDatabase: Bool = false) {
+        
+        if let loggedInUser = Auth.auth().currentUser {
+            
+            // Save the progress locally
+            let user = UserService.shared.user
+            user.lastModule = currentModuleIndex
+            user.lastLesson = currentLessonIndex
+            user.lastQuestion = currentQuestionIndex
+            
+            if writeToDatabase {
+                // Save progress to database
+                let ref = DB.collection("users").document(loggedInUser.uid)
+                ref.setData(["lastModule": user.lastModule ?? NSNull(),
+                             "lastLesson": user.lastLesson ?? NSNull(),
+                             "lastQuestion": user.lastQuestion ?? NSNull()], merge: true)
+            }
+
+        }
+    }
+    
     /// Method to retrieve the user's meta data and store it in the UserService's user object
     private func getUserData() {
         // Check that there's a logged in user
@@ -400,6 +421,9 @@ class ContentModel: ObservableObject {
             currentLesson = nil
         }
         
+        // Save the progress
+        self.saveData()
+        
     }
     
     /// Method that starts the test in the current module, given the module ID
@@ -443,8 +467,10 @@ class ContentModel: ObservableObject {
             // Reset the question if it is the last
             currentQuestionIndex = 0
             currentQuestion = nil
-            
         }
+        
+        // Save the progress
+        self.saveData()
     }
     
     // MARK: - Code Styling

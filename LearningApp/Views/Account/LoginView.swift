@@ -52,7 +52,7 @@ struct LoginView: View {
             }
             .pickerStyle(SegmentedPickerStyle())
             
-            // Form
+            // Text fields
             Group {
                 TextField("Email", text: $email)
                     
