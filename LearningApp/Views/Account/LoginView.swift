@@ -17,7 +17,6 @@ struct LoginView: View {
     @State private var email = ""
     @State private var name = ""
     @State private var password = ""
-    @State private var errorMessage: String?
     
     private var buttonText: String {
         if loginMode == Constants.LoginMode.login {
@@ -64,8 +63,8 @@ struct LoginView: View {
                 
                 SecureField("Password", text: $password)
                 
-                if errorMessage != nil {
-                    Text(errorMessage!)
+                if model.accountError != nil {
+                    Text(model.accountError!)
                         .foregroundColor(.red)
                 }
             }
@@ -75,53 +74,11 @@ struct LoginView: View {
             Button {
                 if loginMode == Constants.LoginMode.login {
                     // Log the user in
-                    Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
-                        
-                        // Check for errors
-                        guard error == nil else {
-                            self.errorMessage = error!.localizedDescription
-                            return
-                        }
-                        // Clear error message
-                        self.errorMessage = nil
-                        
-                        // Fetch user meta data
-                        model.getUserData()
-                        
-                        // Check if user is logged in and if so,
-                        // change the view to logged in view
-                        model.checkLogin()
-                        
-                    }
+                    model.login(email: email, password: password)
                 }
                 else {
-                    // Create a new account
-                    Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
-                        
-                        // Check for errors
-                        guard error == nil else {
-                            self.errorMessage = error!.localizedDescription
-                            return
-                        }
-                        // Clear error message
-                        
-                        // Save the first name
-                        let firebaseUser = Auth.auth().currentUser
-                        let db = Firestore.firestore()
-                        let ref = db.collection("users").document(firebaseUser!.uid)
-                        
-                        ref.setData(["name":name], merge: true)
-                        
-                        // Update the user meta data
-                        let user = UserService.shared.user
-                        user.name = name
-                        
-                        // Check if user is logged in and if so,
-                        // change the view to logged in view
-                        model.checkLogin()
-                        
-                        
-                    }
+                    // Create the user's account
+                    model.createAccont(email: email, name: name, password: password)
                 }
             } label: {
                 ZStack {

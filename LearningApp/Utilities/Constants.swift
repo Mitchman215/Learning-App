@@ -6,10 +6,13 @@
 //
 
 import Foundation
+import Firebase
 
 struct Constants {
     
     static var videoHostUrl = "https://codewithchris.github.io/learningJSON/"
+    
+    static var firestore = Firestore.firestore()
     
     enum LoginMode {
         case login

@@ -10,10 +10,11 @@ import Firebase
 
 class ContentModel: ObservableObject {
     
-    let db = Firestore.firestore()
+    let DB = Firestore.firestore()
     
     // Boolean indicating if user is logged in
     @Published var loggedIn = false
+    @Published var accountError: String?
     
     // List of modules
     @Published var modules = [Module]()
@@ -28,7 +29,7 @@ class ContentModel: ObservableObject {
     
     // Current lesson/ quiz explanation
     @Published var codeText = NSAttributedString()
-    var styleData: Data?
+    private var styleData: Data?
     
     // Current question
     @Published var currentQuestion: Question?
@@ -39,33 +40,85 @@ class ContentModel: ObservableObject {
     @Published var currentTestSelected:Int?
     
     init() {
-        
+        // Parse local style.html
+        getLocalStyles()
     }
     
     // MARK: - Authentication methods
     
+    /// Method that checks whether the user is logged in and gets their meta data if it is not retrieved already
     func checkLogin() {
         // Check if there's a current user to determine logged in status
         loggedIn = Auth.auth().currentUser != nil
         
         // Check if user meta data has been fetched
-        // if the user was already logged in from a previous session, we need to get their data
+        // If not, call getUserData
         if UserService.shared.user.name == "" {
             getUserData()
         }
     }
     
+    /// Method to log the user in given their email address and password as Strings
+    /// Returns an optional error message that will contain the error message if there is one, otherwise nil
+    func login(email: String, password: String) {
+        // Clear the error message
+        self.accountError = nil
+        
+        // Log the user in
+        Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+            
+            // Check for errors
+            guard error == nil else {
+                // If there is an error, set the account error message
+                self.accountError = error!.localizedDescription
+                return
+            }
+            
+            // Update the loggedIn property flag and get the user's meta data
+            self.checkLogin()
+        }
+    }
+    
+    /// Method to create a new account given the user's email address, name, and password as strings
+    /// Updates accountError property to store the error message if there is one
+    func createAccont(email: String, name: String, password: String) {
+        // Clear the error message
+        self.accountError = nil
+        
+        // Create a new account
+        Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
+            
+            // Check for errors
+            guard error == nil else {
+                self.accountError = error!.localizedDescription
+                return
+            }
+            
+            // Save the first name to the database
+            let firebaseUser = Auth.auth().currentUser
+            self.DB.collection("users").document(firebaseUser!.uid)
+                .setData(["name":name], merge: true)
+            
+            // Update the user meta data
+            let user = UserService.shared.user
+            user.name = name
+            
+            // Update the loggedIn property flag
+            self.checkLogin()
+        }
+    }
+    
     // MARK: - Data methods
     
-    func getUserData() {
+    /// Method to retrieve the user's meta data and store it in the UserService's user object
+    private func getUserData() {
         // Check that there's a logged in user
         guard Auth.auth().currentUser != nil else {
             return
         }
         
         // Get the meta data for that user
-        let db = Firestore.firestore()
-        let ref = db.collection("users").document(Auth.auth().currentUser!.uid)
+        let ref = DB.collection("users").document(Auth.auth().currentUser!.uid)
         ref.getDocument { (snapshot, error) in
             // Check there's no errors
             guard error == nil, snapshot != nil else {
@@ -82,9 +135,11 @@ class ContentModel: ObservableObject {
         }
     }
     
+    /// Method to retrive a module's lessons and store them in the modules array under the appropriate module
+    /// executes completion after the lessons are retrieved
     func getLessons(module: Module, completion: @escaping () -> Void) {
         // Specify path
-        let collection = db.collection("modules").document(module.id).collection("lessons")
+        let collection = DB.collection("modules").document(module.id).collection("lessons")
         
         // Get documents
         collection.getDocuments { (snapshot, error) in
@@ -119,9 +174,11 @@ class ContentModel: ObservableObject {
         }
     }
     
+    /// Method to retrieve a module's test questions and store them in the modules array under the appropriate module
+    /// executes completion after the lessons are retrieved
     func getQuestions(module: Module, completion: @escaping () -> Void) {
         
-        let collection = db.collection("modules").document(module.id).collection("questions")
+        let collection = DB.collection("modules").document(module.id).collection("questions")
         
         collection.getDocuments { (snapshot, error) in
             if error == nil && snapshot != nil {
@@ -154,13 +211,10 @@ class ContentModel: ObservableObject {
         }
     }
     
+    /// Method to retrieve the basic modules information stored in the database. Each module's Lessons and Questions are retrieved separately
     func getDatabaseModules() {
-        
-        // Parse local style.html
-        getLocalStyles()
-        
         // Specify path
-        let collection = db.collection("modules")
+        let collection = DB.collection("modules")
         
         // Get documents
         collection.getDocuments { (snapshot, error) in
@@ -214,6 +268,7 @@ class ContentModel: ObservableObject {
         
     }
     
+    /// Method to parse the local style.html file
     func getLocalStyles() {        
         // Parse the style data
         let styleUrl = Bundle.main.url(forResource: "style", withExtension: "html")
@@ -286,6 +341,7 @@ class ContentModel: ObservableObject {
     
     // MARK: - Module navigation methods
     
+    /// Method that starts the specified module, given a module ID
     func beginModule(_ moduleid: String) {
         
         // Find the index for this module id
@@ -301,6 +357,7 @@ class ContentModel: ObservableObject {
         currentModule = modules[currentModuleIndex]
     }
     
+    /// Method that starts the lessons in the current module, given a lesson index
     func beginLesson(_ lessonIndex: Int) {
         // Check that the lesson is within range of module lessons
         if lessonIndex < currentModule!.content.lessons.count {
@@ -316,6 +373,8 @@ class ContentModel: ObservableObject {
         codeText = addStyling(currentLesson!.explanation)
     }
     
+    /// Method to check whether there is a next lesson in the module
+    /// returns true if there is a next lesson, false otherwise
     func hasNextLesson() -> Bool {
         
         guard currentModule != nil else {
@@ -325,6 +384,7 @@ class ContentModel: ObservableObject {
         return (currentLessonIndex + 1 < currentModule!.content.lessons.count)
     }
     
+    /// Method to advance the current lesson to the next lesson
     func nextLesson() {
         // Check that there is a next lesson
         if self.hasNextLesson() {
@@ -342,6 +402,8 @@ class ContentModel: ObservableObject {
         
     }
     
+    /// Method that starts the test in the current module, given the module ID
+    // TODO: make signature consistent with begin lesson
     func beginTest(_ moduleid:String) {
         // Set the current module
         beginModule(moduleid)
@@ -357,6 +419,8 @@ class ContentModel: ObservableObject {
         }
     }
     
+    /// Method to check whether there is a next question in the module
+    /// returns true if there is a next question, false otherwise
     func hasNextQuestion() -> Bool {
         
         guard currentModule != nil else {
@@ -366,6 +430,7 @@ class ContentModel: ObservableObject {
         return (currentQuestionIndex + 1 < currentModule!.test.questions.count)
     }
     
+    /// Method to advance the current question to the next question
     func nextQuestion() {
         if self.hasNextQuestion() { // if it isn't the last question
             // advance question index
@@ -383,6 +448,8 @@ class ContentModel: ObservableObject {
     }
     
     // MARK: - Code Styling
+    
+    /// Converts a String of html code into an NSAttributedString by using styleData
     private func addStyling(_ htmlString: String) -> NSAttributedString {
         
         var resultString = NSAttributedString()
