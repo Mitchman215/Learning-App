@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 
 struct LoginView: View {
@@ -16,6 +17,7 @@ struct LoginView: View {
     @State private var email = ""
     @State private var name = ""
     @State private var password = ""
+    @State private var errorMessage: String?
     
     private var buttonText: String {
         if loginMode == Constants.LoginMode.login {
@@ -52,22 +54,74 @@ struct LoginView: View {
             .pickerStyle(SegmentedPickerStyle())
             
             // Form
-            TextField("Email", text: $email)
+            Group {
+                TextField("Email", text: $email)
+                    
                 
-            
-            if loginMode == Constants.LoginMode.createAccount {
-                TextField("Name", text: $name)
+                if loginMode == Constants.LoginMode.createAccount {
+                    TextField("Name", text: $name)
+                }
+                
+                SecureField("Password", text: $password)
+                
+                if errorMessage != nil {
+                    Text(errorMessage!)
+                        .foregroundColor(.red)
+                }
             }
-            
-            SecureField("Password", text: $password)
+            .textFieldStyle(RoundedBorderTextFieldStyle())
             
             // Button
             Button {
                 if loginMode == Constants.LoginMode.login {
                     // Log the user in
+                    Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+                        
+                        // Check for errors
+                        guard error == nil else {
+                            self.errorMessage = error!.localizedDescription
+                            return
+                        }
+                        // Clear error message
+                        self.errorMessage = nil
+                        
+                        // Fetch user meta data
+                        model.getUserData()
+                        
+                        // Check if user is logged in and if so,
+                        // change the view to logged in view
+                        model.checkLogin()
+                        
+                    }
                 }
                 else {
                     // Create a new account
+                    Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
+                        
+                        // Check for errors
+                        guard error == nil else {
+                            self.errorMessage = error!.localizedDescription
+                            return
+                        }
+                        // Clear error message
+                        
+                        // Save the first name
+                        let firebaseUser = Auth.auth().currentUser
+                        let db = Firestore.firestore()
+                        let ref = db.collection("users").document(firebaseUser!.uid)
+                        
+                        ref.setData(["name":name], merge: true)
+                        
+                        // Update the user meta data
+                        let user = UserService.shared.user
+                        user.name = name
+                        
+                        // Check if user is logged in and if so,
+                        // change the view to logged in view
+                        model.checkLogin()
+                        
+                        
+                    }
                 }
             } label: {
                 ZStack {
@@ -85,7 +139,7 @@ struct LoginView: View {
 
         }
         .padding(.horizontal, 40)
-        .textFieldStyle(RoundedBorderTextFieldStyle())
+        
     }
 }
 

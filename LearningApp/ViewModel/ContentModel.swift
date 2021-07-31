@@ -47,9 +47,40 @@ class ContentModel: ObservableObject {
     func checkLogin() {
         // Check if there's a current user to determine logged in status
         loggedIn = Auth.auth().currentUser != nil
+        
+        // Check if user meta data has been fetched
+        // if the user was already logged in from a previous session, we need to get their data
+        if UserService.shared.user.name == "" {
+            getUserData()
+        }
     }
     
     // MARK: - Data methods
+    
+    func getUserData() {
+        // Check that there's a logged in user
+        guard Auth.auth().currentUser != nil else {
+            return
+        }
+        
+        // Get the meta data for that user
+        let db = Firestore.firestore()
+        let ref = db.collection("users").document(Auth.auth().currentUser!.uid)
+        ref.getDocument { (snapshot, error) in
+            // Check there's no errors
+            guard error == nil, snapshot != nil else {
+                return
+            }
+            
+            // Parse the data out and set the user meta data
+            let data = snapshot!.data()
+            let user = UserService.shared.user
+            user.name = data?["name"] as? String ?? ""
+            user.lastModule = data?["lastModule"] as? Int
+            user.lastLesson = data?["lastLesson"] as? Int
+            user.lastModule = data?["lastQuestion"] as? Int
+        }
+    }
     
     func getLessons(module: Module, completion: @escaping () -> Void) {
         // Specify path
@@ -123,7 +154,7 @@ class ContentModel: ObservableObject {
         }
     }
     
-    private func getModules() {
+    func getDatabaseModules() {
         
         // Parse local style.html
         getLocalStyles()

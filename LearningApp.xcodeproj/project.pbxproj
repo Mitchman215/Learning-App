@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A22A3CEE26B5CDA600DDAB49 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22A3CED26B5CDA600DDAB49 /* UserService.swift */; };
 		A27ECF1A26B3997F00DCFF4C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27ECF1926B3997F00DCFF4C /* LoginView.swift */; };
 		A27ECF1D26B399BF00DCFF4C /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27ECF1C26B399BF00DCFF4C /* ProfileView.swift */; };
 		A27ECF2026B399DA00DCFF4C /* LaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27ECF1F26B399DA00DCFF4C /* LaunchView.swift */; };
@@ -33,6 +34,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A22A3CED26B5CDA600DDAB49 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		A27ECF1926B3997F00DCFF4C /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		A27ECF1C26B399BF00DCFF4C /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		A27ECF1F26B399DA00DCFF4C /* LaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchView.swift; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				A2EA2CE326993A02002D44E7 /* Constants.swift */,
+				A22A3CED26B5CDA600DDAB49 /* UserService.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -350,6 +353,7 @@
 				A2EA2CB42696A1A9002D44E7 /* HomeView.swift in Sources */,
 				A2EA2CB22696A1A9002D44E7 /* LearningApp.swift in Sources */,
 				A2EA2CD826992D0A002D44E7 /* ContentView.swift in Sources */,
+				A22A3CEE26B5CDA600DDAB49 /* UserService.swift in Sources */,
 				A2EA2CDE26993710002D44E7 /* ContentDetailView.swift in Sources */,
 				A2EA2CCA2696A28F002D44E7 /* ContentModel.swift in Sources */,
 				A27ECF1D26B399BF00DCFF4C /* ProfileView.swift in Sources */,

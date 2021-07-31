@@ -6,10 +6,24 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct ProfileView: View {
+    
+    @EnvironmentObject var model: ContentModel
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Button {
+            // sign out the user
+            try! Auth.auth().signOut()
+            
+            // Change to logged out view
+            model.checkLogin()
+            
+        } label: {
+            Text("Sign out")
+        }
+
     }
 }
 

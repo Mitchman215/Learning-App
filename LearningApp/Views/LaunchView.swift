@@ -36,10 +36,11 @@ struct LaunchView: View {
                     .tabItem {
                         VStack {
                             Image(systemName: "person")
-                            Text("Learn")
+                            Text("Profile")
                         }
                     }
             }
+            .onAppear(perform: model.getDatabaseModules)
             
         }
     }
