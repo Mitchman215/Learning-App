@@ -9,21 +9,42 @@ import SwiftUI
 
 struct HomeView: View {
     
-    @EnvironmentObject var model:ContentModel
+    @EnvironmentObject var model: ContentModel
+    
+    let user = UserService.shared.user
+    
+    var navTitle: String {
+        if user.lastLesson != nil || user.lastQuestion != nil {
+            return "Welcome back"
+        }
+        else {
+            return "Get Started"
+        }
+    }
     
     var body: some View {
         
         NavigationView {
             VStack (alignment: .leading) {
                 
-                Text("What do you want to do today?")
-                    .padding(.leading, 20)
-                
+                if user.lastLesson != nil && user.lastLesson! > 0 ||
+                    user.lastQuestion != nil && user.lastQuestion! > 0 {
+                    
+                    // Show the resume view
+                    ResumeView()
+                        .padding(.horizontal)
+                }
+                else {
+                    Text("What do you want to do today?")
+                    .padding(.leading)
+                }
+                    
                 ScrollView {
                     LazyVStack {
                         ForEach (model.modules) { module in
                             VStack (spacing: 20) {
                                 
+                                // Link to ContentView
                                 NavigationLink(
                                     destination: ContentView()
                                                     .onAppear(perform: {
@@ -31,7 +52,7 @@ struct HomeView: View {
                                                             model.beginModule(module.id)
                                                         }
                                                         
-                                                        }),
+                                                    }),
                                     tag: module.id.hash,
                                     selection: $model.currentContentSelected) {
                                         // MARK: Learning Card
@@ -42,6 +63,7 @@ struct HomeView: View {
                                                      time: module.content.time)
                                     }
                                 
+                                // Link to TestView
                                 NavigationLink(
                                     destination: TestView()
                                                     .onAppear(perform: {
@@ -67,7 +89,7 @@ struct HomeView: View {
                     .padding()
                 }
             }
-            .navigationTitle("Get Started")
+            .navigationTitle(navTitle)
             .onChange(of: model.currentContentSelected) { (changedValue) in
                 if changedValue == nil {
                     model.currentModule = nil

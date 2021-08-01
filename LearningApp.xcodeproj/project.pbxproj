@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A22A3CEE26B5CDA600DDAB49 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22A3CED26B5CDA600DDAB49 /* UserService.swift */; };
+		A22A3CF226B6128D00DDAB49 /* ResumeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A22A3CF126B6128D00DDAB49 /* ResumeView.swift */; };
 		A27ECF1A26B3997F00DCFF4C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27ECF1926B3997F00DCFF4C /* LoginView.swift */; };
 		A27ECF1D26B399BF00DCFF4C /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27ECF1C26B399BF00DCFF4C /* ProfileView.swift */; };
 		A27ECF2026B399DA00DCFF4C /* LaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27ECF1F26B399DA00DCFF4C /* LaunchView.swift */; };
@@ -34,6 +35,7 @@
 
 /* Begin PBXFileReference section */
 		A22A3CED26B5CDA600DDAB49 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		A22A3CF126B6128D00DDAB49 /* ResumeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumeView.swift; sourceTree = "<group>"; };
 		A27ECF1926B3997F00DCFF4C /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		A27ECF1C26B399BF00DCFF4C /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		A27ECF1F26B399DA00DCFF4C /* LaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchView.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 			children = (
 				A2EA2CB32696A1A9002D44E7 /* HomeView.swift */,
 				A2EA2CD42699287B002D44E7 /* HomeViewCard.swift */,
+				A22A3CF126B6128D00DDAB49 /* ResumeView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -354,6 +357,7 @@
 				A2EA2CCA2696A28F002D44E7 /* ContentModel.swift in Sources */,
 				A27ECF1D26B399BF00DCFF4C /* ProfileView.swift in Sources */,
 				A2EA2CD22696A5DC002D44E7 /* Models.swift in Sources */,
+				A22A3CF226B6128D00DDAB49 /* ResumeView.swift in Sources */,
 				A27ECF1A26B3997F00DCFF4C /* LoginView.swift in Sources */,
 				A2FA1D83269A058D00180053 /* CodeTextView.swift in Sources */,
 				A2EA2CD52699287B002D44E7 /* HomeViewCard.swift in Sources */,

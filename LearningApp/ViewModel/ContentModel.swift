@@ -152,7 +152,7 @@ class ContentModel: ObservableObject {
             user.name = data?["name"] as? String ?? ""
             user.lastModule = data?["lastModule"] as? Int
             user.lastLesson = data?["lastLesson"] as? Int
-            user.lastModule = data?["lastQuestion"] as? Int
+            user.lastQuestion = data?["lastQuestion"] as? Int
         }
     }
     
@@ -380,6 +380,10 @@ class ContentModel: ObservableObject {
     
     /// Method that starts the lessons in the current module, given a lesson index
     func beginLesson(_ lessonIndex: Int) {
+        
+        // Reset the currentQuestionIndex since the user is starting a new lesson
+        currentQuestionIndex = 0
+        
         // Check that the lesson is within range of module lessons
         if lessonIndex < currentModule!.content.lessons.count {
             currentLessonIndex = lessonIndex
@@ -434,6 +438,9 @@ class ContentModel: ObservableObject {
         
         // Set the current question
         currentQuestionIndex = 0
+        
+        // Reset the saved index of the last lesson since they are starting a test now
+        currentLessonIndex = 0
         
         // if there are questions, set the current question to the first one
         if currentModule?.test.questions.count ?? 0 > 0 {
